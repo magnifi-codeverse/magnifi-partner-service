@@ -79,4 +79,21 @@ export class AuthService {
 
     return partner.partner_jwt;
   }
+
+  async remove(user: JwtClientUser, partner_token_id: string): Promise<void> {
+    const _log_ctx = { partner_token_id, user };
+    const partnerToken = await this.partnerRepository.findByPartnerTokenId(partner_token_id);
+
+    if (!partnerToken) {
+      this.logger.error("Partner token not found", { ..._log_ctx });
+      throw new Error("Partner token not found");
+    }
+
+    partnerToken.is_revoked = true;
+    await this.partnerRepository.save(partnerToken);
+  }
+
+  async list(user: JwtClientUser, entityId: string): Promise<PartnerToken[]> {
+    return this.partnerRepository.findByEntityIdUnRevoked(entityId);
+  }
 }

@@ -43,4 +43,8 @@ export class PartnerTokenRepository implements IPartnerTokenRepository {
   async save(partner: PartnerToken): Promise<PartnerToken> {
     return this.repo.save(partner);
   }
+
+  async findByPartnerTokenId(partnerTokenId: string): Promise<PartnerToken | undefined> {
+    return this.repo.findOneBy({ partner_token_id: partnerTokenId });
+  }
 }

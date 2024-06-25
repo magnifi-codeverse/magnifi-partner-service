@@ -8,4 +8,5 @@ export interface IPartnerTokenRepository {
   update(id: number, partnerData: Partial<PartnerToken>): Promise<void>;
   delete(id: number): Promise<void>;
   save(partner: PartnerToken): Promise<PartnerToken>;
+  findByPartnerTokenId(partnerTokenId: string): Promise<PartnerToken | undefined>;
 }
