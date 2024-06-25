@@ -1,9 +1,22 @@
-import { Entity, PrimaryGeneratedColumn, Column, Index } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Index,
+  BeforeInsert,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
+import { v4 as uuidv4 } from "uuid";
 
 @Entity()
-export class Partner {
+@Index("IDX_REVOKED_FALSE", ["is_revoked"], { where: "is_revoked = false" })
+export class PartnerToken {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ type: "varchar", length: 255, unique: true })
+  partner_token_id: string;
 
   @Column({ type: "varchar", length: 255 })
   entity_id: string;
@@ -11,28 +24,24 @@ export class Partner {
   @Column({ type: "varchar", length: 255 })
   user_id: string;
 
-  @Column({ type: "text" })
-  token: string;
-
-  @Column({ type: "bigint" })
-  issued_at: number;
-
-  @Column({ type: "bigint" })
-  expire_at: number;
-
   @Column({ type: "varchar", length: 255 })
   name: string;
 
   @Column({ type: "varchar", length: 255 })
   scope: string;
 
+  @Column({ type: "text" })
+  client_jwt_hash: string;
+
+  @Column({ type: "text" })
+  partner_jwt: string;
+
   @Column({ type: "boolean", default: false })
-  @Index("IDX_REVOKED_FALSE", { where: "revoked = FALSE" })
-  revoked: boolean;
+  is_revoked: boolean;
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  creation_date: Date;
+  @CreateDateColumn()
+  created_at: Date;
 
-  @Column({ type: "timestamp", nullable: true })
-  expiration_date: Date;
+  @UpdateDateColumn()
+  updated_at: Date;
 }

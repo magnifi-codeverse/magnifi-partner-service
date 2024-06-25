@@ -14,16 +14,14 @@ export class JwtPartnerStrategy extends PassportStrategy(Strategy, "jwt-partner"
   }
 
   async validate(payload: any) {
-    if (!payload.userId || !payload.name) {
-      throw new Error("Invalid token payload: Missing necessary user information");
+    if (!payload.user_id || !payload.entity_id) {
+      throw new Error("Invalid JwtPartnerStrategy token payload: Missing necessary user information");
     }
 
     return {
-      userId: payload.userId,
-      name: payload.name,
-      scope: payload.scope,
-      issuedAt: payload.iat,
-      expireAt: payload.exp,
+      user_id: payload.user_id,
+      entity_id: payload.entity_id,
+      partner_token_id: payload.partner_token_id,
     };
   }
 }

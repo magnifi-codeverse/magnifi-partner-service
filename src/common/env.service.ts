@@ -21,6 +21,7 @@ export class EnvService {
       DB_PASSWORD: Joi.string().required(),
       DB_NAME: Joi.string().required(),
       JWT_CLIENT_SECRET: Joi.string().required(),
+      JWT_CLIENT_HASH_SECRET: Joi.string().required(),
       JWT_PARTNER_SECRET: Joi.string().required(),
     });
 

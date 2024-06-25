@@ -1,11 +1,11 @@
-import { Partner } from "../entities/partner.entity";
+import { PartnerToken } from "../entities/partner.entity";
 
-export interface IPartnerRepository {
-  findAll(): Promise<Partner[]>;
-  findById(id: number): Promise<Partner | undefined>;
-  findByEntityId(entityId: string): Promise<Partner[] | undefined>;
-  create(partnerData: Partial<Partner>): Promise<Partner>;
-  update(id: number, partnerData: Partial<Partner>): Promise<void>;
+export interface IPartnerTokenRepository {
+  findAll(): Promise<PartnerToken[]>;
+  findById(id: number): Promise<PartnerToken | undefined>;
+  findByEntityId(entityId: string): Promise<PartnerToken[] | undefined>;
+  create(partnerData: Partial<PartnerToken>): Promise<PartnerToken>;
+  update(id: number, partnerData: Partial<PartnerToken>): Promise<void>;
   delete(id: number): Promise<void>;
-  save(partner: Partner): Promise<Partner>;
+  save(partner: PartnerToken): Promise<PartnerToken>;
 }

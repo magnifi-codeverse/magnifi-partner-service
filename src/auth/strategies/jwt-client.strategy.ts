@@ -10,20 +10,22 @@ export class JwtClientStrategy extends PassportStrategy(Strategy, "jwt-client") 
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: envService.get("JWT_CLIENT_SECRET"),
+      passReqToCallback: true, // This option allows the request to be passed to the validate method
     });
   }
 
-  async validate(payload: any) {
+  async validate(req: Request, payload: any) {
+    const token = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
+
     if (!payload.userId || !payload.name) {
-      throw new Error("Invalid token payload: Missing necessary user information");
+      throw new Error("Invalid JwtClientStrategy token payload: Missing necessary user information");
     }
 
     return {
       userId: payload.userId,
       name: payload.name,
       scope: payload.scope,
-      issuedAt: payload.iat,
-      expireAt: payload.exp,
+      jwt_token: token,
     };
   }
 }
