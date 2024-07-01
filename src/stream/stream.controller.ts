@@ -3,9 +3,8 @@ import { FastifyReply } from "fastify";
 import { StreamService } from "./stream.service";
 import { CreateStreamDto } from "./dto/create-stream.dto";
 import { LoggerService } from "src/common/logger.service";
-import { JwtClientGuard } from "../auth/guards/jwt-client.guard";
-import { JwtPartnerGuard } from "../auth/guards/jwt-partner.guard";
-import { FastifyRequestWithJwtClientUser, FastifyRequestWithJwtPartnerUser } from "../common/interface/fastify";
+import { FastifyRequestWithJwtPartnerUser } from "../common/interface/fastify";
+import { ApiKeyPartnerGuard } from "../auth/guards/api-key-partner.guard";
 
 @Controller({
   path: "stream",
@@ -28,7 +27,7 @@ export class StreamController {
   }
 
   @Post()
-  @UseGuards(JwtPartnerGuard)
+  @UseGuards(ApiKeyPartnerGuard)
   async createStream(
     @Request() req: FastifyRequestWithJwtPartnerUser,
     @Body() createStreamDto: CreateStreamDto,

@@ -4,12 +4,12 @@ import { AppService } from "./app.service";
 import { CommonModule } from "./common/common.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { EnvService } from "./common/env.service";
-import { LoggingMiddleware } from "./common/middleware/logger.middleware";
+import { LoggingMiddleware } from "./common/middlewares/logger.middleware";
 import { StreamModule } from "./stream/stream.module";
 import { AuthModule } from "./auth/auth.module";
 import { PartnerModule } from "./partner/partner.module";
 import typeorm from "./config/typeorm";
+import { RequestIdMiddleware } from "./common/middlewares/request-id.middleware";
 
 @Module({
   imports: [
@@ -35,6 +35,7 @@ import typeorm from "./config/typeorm";
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestIdMiddleware).forRoutes("*");
     consumer.apply(LoggingMiddleware).forRoutes("*");
   }
 }

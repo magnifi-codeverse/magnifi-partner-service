@@ -1,14 +1,15 @@
 import { Module } from "@nestjs/common";
 import { PartnerController } from "./partner.controller";
 import { PartnerService } from "./partner.service";
-import { PartnerTokenRepository } from "./repositories/partner.repository";
+import { PartnerApiKeyRepository } from "./repositories/partner.repository";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { PartnerToken } from "./entities/partner.entity";
+import { PartnerApiKey } from "./entities/partner.entity";
+import { CommonModule } from "../common/common.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PartnerToken])],
+  imports: [CommonModule, TypeOrmModule.forFeature([PartnerApiKey])],
   controllers: [PartnerController],
-  providers: [PartnerService, PartnerTokenRepository],
-  exports: [PartnerTokenRepository],
+  providers: [PartnerApiKeyRepository, PartnerService],
+  exports: [PartnerApiKeyRepository, PartnerService],
 })
 export class PartnerModule {}

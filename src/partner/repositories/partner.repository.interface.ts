@@ -1,12 +1,15 @@
-import { PartnerToken } from "../entities/partner.entity";
+import { PartnerApiKey } from "../entities/partner.entity";
 
-export interface IPartnerTokenRepository {
-  findAll(): Promise<PartnerToken[]>;
-  findById(id: number): Promise<PartnerToken | undefined>;
-  findByEntityId(entityId: string): Promise<PartnerToken[] | undefined>;
-  create(partnerData: Partial<PartnerToken>): Promise<PartnerToken>;
-  update(id: number, partnerData: Partial<PartnerToken>): Promise<void>;
+export interface IPartnerApiKeyRepository {
+  findAll(): Promise<PartnerApiKey[]>;
+  findOneBy(where: Partial<PartnerApiKey>): Promise<PartnerApiKey | undefined>;
+  findById(id: number): Promise<PartnerApiKey | undefined>;
+  findByEntityId(entityId: string): Promise<PartnerApiKey[] | undefined>;
+  findByEntityIdActive(entityId: string): Promise<PartnerApiKey[] | undefined>;
+  create(partnerData: Partial<PartnerApiKey>): Promise<PartnerApiKey>;
+  update(id: number, partnerData: Partial<PartnerApiKey>): Promise<void>;
   delete(id: number): Promise<void>;
-  save(partner: PartnerToken): Promise<PartnerToken>;
-  findByPartnerTokenId(partnerTokenId: string): Promise<PartnerToken | undefined>;
+  deleteByPartnerApiKeyId(partnerApiKeyId: string): Promise<void>;
+  save(partner: PartnerApiKey): Promise<PartnerApiKey>;
+  findByPartnerApiKeyId(partnerApiKeyId: string): Promise<PartnerApiKey | undefined>;
 }

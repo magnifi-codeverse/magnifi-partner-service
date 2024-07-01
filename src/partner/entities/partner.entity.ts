@@ -1,22 +1,17 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  Index,
-  BeforeInsert,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from "typeorm";
-import { v4 as uuidv4 } from "uuid";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Index } from "typeorm";
 
+// A custom migration script (File1719842867982) added the unique constraint "unique_active_entity_id" to ensure
+// only one active partner API key exists per entity; since TypeORM doesn't support partial indexes
+// programmatically, we added the @Index decorator for the unique_active_entity_id to prevent TypeORM from generating a migration script to
+// drop the constraint.
 @Entity()
-@Index("IDX_REVOKED_FALSE", ["is_revoked"], { where: "is_revoked = false" })
-export class PartnerToken {
+@Index("unique_active_entity_id", ["entity_id"], { unique: true, where: "is_active = true" })
+export class PartnerApiKey {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: "varchar", length: 255, unique: true })
-  partner_token_id: string;
+  partner_api_key_id: string;
 
   @Column({ type: "varchar", length: 255 })
   entity_id: string;
@@ -25,19 +20,13 @@ export class PartnerToken {
   user_id: string;
 
   @Column({ type: "varchar", length: 255 })
-  name: string;
-
-  @Column({ type: "varchar", length: 255 })
-  scope: string;
+  organization_member_id: string;
 
   @Column({ type: "text" })
-  client_jwt_hash: string;
+  hashed_api_key: string;
 
-  @Column({ type: "text" })
-  partner_jwt: string;
-
-  @Column({ type: "boolean", default: false })
-  is_revoked: boolean;
+  @Column({ type: "boolean", default: true })
+  is_active: boolean;
 
   @CreateDateColumn()
   created_at: Date;
