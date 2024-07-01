@@ -1,9 +1,8 @@
 import { Body, Controller, Get, HttpStatus, Post, Request, Res, UseGuards } from "@nestjs/common";
-import { FastifyReply } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 import { StreamService } from "./stream.service";
 import { CreateStreamDto } from "./dto/create-stream.dto";
 import { LoggerService } from "src/common/logger.service";
-import { FastifyRequestWithJwtPartnerUser } from "../common/interface/fastify";
 import { ApiKeyPartnerGuard } from "../auth/guards/api-key-partner.guard";
 
 @Controller({
@@ -29,12 +28,12 @@ export class StreamController {
   @Post()
   @UseGuards(ApiKeyPartnerGuard)
   async createStream(
-    @Request() req: FastifyRequestWithJwtPartnerUser,
+    @Request() req: FastifyRequest,
     @Body() createStreamDto: CreateStreamDto,
     @Res() res: FastifyReply,
   ) {
     // TODO: Implement the createStream method
-    const user = req.user;
+    const user = null;
     const data = await this.streamService.createStream(createStreamDto);
     this.logger.log("Stream created", { user, data });
 
