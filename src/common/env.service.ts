@@ -20,6 +20,7 @@ export class EnvService {
       DB_USERNAME: Joi.string().required(),
       DB_PASSWORD: Joi.string().required(),
       DB_NAME: Joi.string().required(),
+      API_KEY_MAGNIFI: Joi.string().required(),
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(envConfig, {
